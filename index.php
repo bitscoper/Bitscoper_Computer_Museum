@@ -150,14 +150,23 @@ usort($titles, fn($a, $b) => strcmp($a["title"], $b["title"]));
 
     <main>
       <?php foreach ($titles as $computer): ?>
-      <section>
+
+      <?php
+      $slug = strtolower($computer["title"]);
+      $slug = preg_replace("/[^a-z0-9]+/", "-", $slug);
+      $slug = trim($slug, "-");
+      ?>
+
+      <section id="<?= htmlspecialchars($slug) ?>">
         <h2><?= htmlspecialchars($computer["title"]) ?></h2>
         <div class="gallery">
           <?php foreach ($computer["photographs"] as $photograph): ?>
           <figure>
             <a href="<?= htmlspecialchars(
               $photograph["path"],
-            ) ?>" target="_blank">
+            ) ?>" target="_blank" title="<?= htmlspecialchars(
+  $photograph["caption"],
+) ?>">
               <img src="<?= htmlspecialchars(
                 $photograph["path"],
               ) ?>" loading="lazy" alt="<?= htmlspecialchars(
@@ -176,7 +185,11 @@ usort($titles, fn($a, $b) => strcmp($a["title"], $b["title"]));
     </main>
 
     <footer>
-      <a href="https://github.com/bitscoper/Bitscoper_Computer_Museum/" title="Source Code">Source Code</a>
+      <a href="https://github.com/bitscoper/Bitscoper_Computer_Museum/" target="_blank" title="Source Code">Source Code</a>
     </footer>
+
+    <script>
+      /* By Abdullah As-Sadeed */
+    </script>
   </body>
 </html>
