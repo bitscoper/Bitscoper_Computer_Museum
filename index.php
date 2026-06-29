@@ -4,13 +4,13 @@
 
 header("Content-Type: application/xhtml+xml; charset=UTF-8");
 
-$root = "Data";
+$data_directory_path = "Data";
 $allowed_extensions = ["avif", "gif", "jpeg", "jpg", "png", "webp"];
 
 $titles = [];
 $total_photographs = 0;
 
-foreach (new DirectoryIterator($root) as $directory) {
+foreach (new DirectoryIterator($data_directory_path) as $directory) {
   if (!$directory->isDot() && $directory->isDir()) {
     $title = $directory->getFilename();
     $photographs = [];
@@ -50,11 +50,15 @@ usort($titles, fn($a, $b) => strcmp($a["title"], $b["title"]));
 libxml_use_internal_errors(true);
 $dom_document = new DOMDocument("1.0", "UTF-8");
 $dom_document->formatOutput = true;
-$dom_document->loadHTML(
-  file_get_contents("Template.xhtml"),
-  LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD,
-);
+$dom_document->load("Template.xhtml"); // Loads XML File
 libxml_clear_errors();
+
+$elements = $dom_document->getElementsByTagName("*");
+foreach ($elements as $element) {
+  if ($element->hasAttribute("id")) {
+    $element->setIdAttribute("id", true); # Enables getElementById
+  }
+}
 
 $counts_p_element = $dom_document->getElementById("counts");
 if ($counts_p_element !== null) {
