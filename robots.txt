@@ -1,0 +1,4 @@
+# By Abdullah As-Sadeed
+User-agent: *
+Disallow:
+Sitemap: https://computer-museum.bitscoper.dev/sitemap.xml
