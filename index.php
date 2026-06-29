@@ -1,5 +1,8 @@
 <?php
+
 /* By Abdullah As-Sadeed */
+
+header("Content-Type: application/xhtml+xml; charset=UTF-8");
 
 $root = "Data";
 $allowed_extensions = ["avif", "gif", "jpeg", "jpg", "png", "webp"];
@@ -16,7 +19,7 @@ foreach (new DirectoryIterator($root) as $directory) {
       if (!$file->isDot() && $file->isFile()) {
         $extension = strtolower($file->getExtension());
 
-        if (in_array($extension, $allowed_extensions)) {
+        if (in_array($extension, $allowed_extensions, true)) {
           $photographs[] = [
             "path" => $file->getPathname(),
             "caption" => pathinfo($file->getFilename(), PATHINFO_FILENAME),
@@ -43,153 +46,79 @@ foreach (new DirectoryIterator($root) as $directory) {
 }
 
 usort($titles, fn($a, $b) => strcmp($a["title"], $b["title"]));
-?>
-<!DOCTYPE html>
-<!-- By Abdullah As-Sadeed -->
-<html lang="en-US">
-  <head>
-    <meta charset="UTF-8">
-    <title>Bitscoper Computer Museum</title>
-    <meta title="author" content="Abdullah As-Sadeed" />
-    <meta title="description" content="Bitscoper Computer Museum" />
-    <style>
-      * {
-        box-sizing: border-box;
-      }
 
-      body {
-        margin: 0;
-        font-family: system-ui, sans-serif;
-        background: #f4f4f4;
-        color: #222;
-        line-height: 1.5;
-      }
+libxml_use_internal_errors(true);
+$dom_document = new DOMDocument("1.0", "UTF-8");
+$dom_document->formatOutput = true;
+$dom_document->loadHTML(
+  file_get_contents("Template.xhtml"),
+  LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD,
+);
+libxml_clear_errors();
 
-      header {
-        background: #20242a;
-        color: white;
-        padding: 3rem 1rem;
-        text-align: center;
-      }
+$counts_p_element = $dom_document->getElementById("counts");
+if ($counts_p_element !== null) {
+  while ($counts_p_element->firstChild !== null) {
+    $counts_p_element->removeChild($counts_p_element->firstChild);
+  }
 
-      header h1 {
-        margin: 0;
-        font-size: 2.5rem;
-      }
+  $counts_p_element->appendChild(
+    $dom_document->createTextNode(
+      $total_photographs . " Photographs of " . count($titles) . " Computers",
+    ),
+  );
+}
 
-      header p {
-        color: #bbb;
-      }
+$main_element = $dom_document->getElementById("main");
 
-      main {
-        max-width: 1500px;
-        margin: auto;
-        padding: 2rem;
-      }
+if ($main_element !== null) {
+  while ($main_element->firstChild !== null) {
+    $main_element->removeChild($main_element->firstChild);
+  }
 
-      section {
-        margin-bottom: 4rem;
-      }
+  foreach ($titles as $computer) {
+    $section_slug = strtolower($computer["title"]);
+    $section_slug = preg_replace("/[^a-z0-9]+/", "-", $section_slug);
+    $section_slug = trim($section_slug, "-");
 
-      section h2 {
-        border-bottom: 3px solid #ddd;
-        padding-bottom: 0.5rem;
-        margin-bottom: 1.5rem;
-      }
+    $section_element = $dom_document->createElement("section");
+    $section_element->setAttribute("id", $section_slug);
 
-      .gallery {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 20px;
-      }
+    $h2_element = $dom_document->createElement("h2");
+    $h2_element->appendChild($dom_document->createTextNode($computer["title"]));
+    $section_element->appendChild($h2_element);
 
-      figure {
-        margin: 0;
-        background: white;
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-      }
+    $gallery_div_element = $dom_document->createElement("div");
+    $gallery_div_element->setAttribute("class", "gallery");
 
-      figure:hover {
-        transform: translateY(-2px);
-        transition: 0.2s;
-      }
+    foreach ($computer["photographs"] as $photograph) {
+      $figure_element = $dom_document->createElement("figure");
 
-      img {
-        display: block;
-        width: 100%;
-        height: 220px;
-        object-fit: cover;
-      }
+      $hyperlink_element = $dom_document->createElement("a");
+      $hyperlink_element->setAttribute("href", $photograph["path"]);
+      $hyperlink_element->setAttribute("target", "_blank");
+      $hyperlink_element->setAttribute("title", $photograph["caption"]);
 
-      figcaption {
-        padding: 0.8rem;
-        font-size: 0.95rem;
-      }
+      $image_element = $dom_document->createElement("img");
+      $image_element->setAttribute("src", $photograph["path"]);
+      $image_element->setAttribute("loading", "lazy");
+      $image_element->setAttribute("alt", $photograph["caption"]);
+      $hyperlink_element->appendChild($image_element);
 
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
+      $figure_element->appendChild($hyperlink_element);
 
-      footer {
-        text-align: center;
-        padding: 2rem;
-        color: #666;
-      }
-    </style>
-  </head>
-  <body lang="en-US">
-    <header>
-      <h1>Bitscoper Computer Museum</h1>
-      <p>
-        <?= $total_photographs ?> Photographs of <?= count($titles) ?> Computers
-      </p>
-    </header>
+      $figcaption_element = $dom_document->createElement("figcaption");
+      $figcaption_element->appendChild(
+        $dom_document->createTextNode($photograph["caption"]),
+      );
 
-    <main>
-      <?php foreach ($titles as $computer): ?>
+      $figure_element->appendChild($figcaption_element);
+      $gallery_div_element->appendChild($figure_element);
+    }
 
-      <?php
-      $slug = strtolower($computer["title"]);
-      $slug = preg_replace("/[^a-z0-9]+/", "-", $slug);
-      $slug = trim($slug, "-");
-      ?>
+    $section_element->appendChild($gallery_div_element);
+    $main_element->appendChild($section_element);
+  }
+}
 
-      <section id="<?= htmlspecialchars($slug) ?>">
-        <h2><?= htmlspecialchars($computer["title"]) ?></h2>
-        <div class="gallery">
-          <?php foreach ($computer["photographs"] as $photograph): ?>
-          <figure>
-            <a href="<?= htmlspecialchars(
-              $photograph["path"],
-            ) ?>" target="_blank" title="<?= htmlspecialchars(
-  $photograph["caption"],
-) ?>">
-              <img src="<?= htmlspecialchars(
-                $photograph["path"],
-              ) ?>" loading="lazy" alt="<?= htmlspecialchars(
-  $photograph["caption"],
-) ?>" />
-            </a>
-
-            <figcaption>
-              <?= htmlspecialchars($photograph["caption"]) ?>
-            </figcaption>
-          </figure>
-          <?php endforeach; ?>
-        </div>
-      </section>
-      <?php endforeach; ?>
-    </main>
-
-    <footer>
-      <a href="https://github.com/bitscoper/Bitscoper_Computer_Museum/" target="_blank" title="Source Code">Source Code</a>
-    </footer>
-
-    <script>
-      /* By Abdullah As-Sadeed */
-    </script>
-  </body>
-</html>
+echo $dom_document->saveXML();
