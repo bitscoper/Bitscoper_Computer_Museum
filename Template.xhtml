@@ -1,0 +1,123 @@
+<!-- By Abdullah As-Sadeed -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Bitscoper Computer Museum</title>
+    <meta name="author" content="Abdullah As-Sadeed" />
+    <meta
+      name="description"
+      content="A PHP-Driven Single-Page XHTML Gallery of Historical Computers"
+    />
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: system-ui, sans-serif;
+        background: #f4f4f4;
+        color: #222;
+        line-height: 1.5;
+      }
+
+      header {
+        background: #20242a;
+        color: white;
+        padding: 3rem 1rem;
+        text-align: center;
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 2.5rem;
+      }
+
+      header p {
+        color: #bbb;
+      }
+
+      main {
+        max-width: 1500px;
+        margin: auto;
+        padding: 2rem;
+      }
+
+      section {
+        margin-bottom: 4rem;
+      }
+
+      section h2 {
+        border-bottom: 3px solid #ddd;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+      }
+
+      figure {
+        margin: 0;
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      figure:hover {
+        transform: translateY(-2px);
+        transition: 0.2s;
+      }
+
+      img {
+        display: block;
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+      }
+
+      figcaption {
+        padding: 0.8rem;
+        font-size: 0.95rem;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      footer {
+        text-align: center;
+        padding: 2rem;
+        color: #666;
+      }
+    </style>
+  </head>
+
+  <body lang="en-US">
+    <header>
+      <h1>Bitscoper Computer Museum</h1>
+      <p id="counts"></p>
+    </header>
+
+    <main id="main"></main>
+
+    <footer>
+      <a
+        href="https://github.com/bitscoper/Bitscoper_Computer_Museum/"
+        target="_blank"
+        title="Source Code"
+      >
+        Source Code
+      </a>
+    </footer>
+
+    <script>
+      /* By Abdullah As-Sadeed */
+    </script>
+  </body>
+</html>
