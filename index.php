@@ -13,7 +13,6 @@ function minify_css($css)
 {
   $css = preg_replace("/\s+/", " ", $css); // Replace Consecutive Whitespace Characters with " "
   $css = preg_replace("/\s*([{:;},])\s*/", '$1', $css); // Remove Whitespace Around Symbols
-  $css = preg_replace("/;}/", "}", $css); // Remove Last Semicolon in Blocks
   return trim($css);
 }
 
@@ -58,7 +57,7 @@ foreach (new DirectoryIterator($data_directory_path) as $directory) {
       }
     }
 
-    usort($photographs, fn($a, $b) => strcmp($a["caption"], $b["caption"]));
+    shuffle($photographs);
 
     $titles[] = [
       "title" => $title,
