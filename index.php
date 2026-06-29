@@ -2,13 +2,28 @@
 
 /* By Abdullah As-Sadeed */
 
+function minify_xhtml($xhtml)
+{
+  $xhtml = preg_replace("/\s+/", " ", $xhtml); // Replace Consecutive Whitespace Characters with " "
+  $xhtml = preg_replace("/>\s+</s", "><", $xhtml); # Remove Whitespace Between Tags
+  return trim($xhtml);
+}
+
+function minify_css($css)
+{
+  $css = preg_replace("/\s+/", " ", $css); // Replace Consecutive Whitespace Characters with " "
+  $css = preg_replace("/\s*([{:;},])\s*/", '$1', $css); // Remove Whitespace Around Symbols
+  $css = preg_replace("/;}/", "}", $css); // Remove Last Semicolon in Blocks
+  return trim($css);
+}
+
+$data_directory_path = "Data";
+$template_xhtml_file_path = "Template.xhtml";
+
 $javascript_nonce = base64_encode(random_bytes(16));
 
 header("Content-Type: application/xhtml+xml; charset=UTF-8");
 header("Content-Security-Policy: script-src 'self' 'nonce-$javascript_nonce';");
-
-$data_directory_path = "Data";
-$allowed_extensions = ["avif", "gif", "jpeg", "jpg", "png", "webp"];
 
 $titles = [];
 $total_photographs = 0;
@@ -22,7 +37,13 @@ foreach (new DirectoryIterator($data_directory_path) as $directory) {
       if (!$file->isDot() && $file->isFile()) {
         $extension = strtolower($file->getExtension());
 
-        if (in_array($extension, $allowed_extensions, true)) {
+        if (
+          in_array(
+            $extension,
+            ["avif", "gif", "jpeg", "jpg", "png", "webp"],
+            true,
+          )
+        ) {
           $photographs[] = [
             "path" => $file->getPathname(),
             "caption" => pathinfo($file->getFilename(), PATHINFO_FILENAME),
@@ -52,14 +73,33 @@ usort($titles, fn($a, $b) => strcmp($a["title"], $b["title"]));
 
 libxml_use_internal_errors(true);
 $dom_document = new DOMDocument("1.0", "UTF-8");
-$dom_document->formatOutput = true;
-$dom_document->load("Template.xhtml"); // Loads XML File
+$dom_document->formatOutput = false;
+$dom_document->load($template_xhtml_file_path); // Loads XML File
 libxml_clear_errors();
 
 $elements = $dom_document->getElementsByTagName("*");
 foreach ($elements as $element) {
   if ($element->hasAttribute("id")) {
     $element->setIdAttribute("id", true); # Enables getElementById
+  } else {
+    continue;
+  }
+}
+
+$style_elements = $dom_document->getElementsByTagName("style");
+foreach ($style_elements as $style_element) {
+  $css = $style_element->nodeValue;
+
+  if ($css !== null && $css !== "") {
+    while ($style_element->firstChild) {
+      $style_element->removeChild($style_element->firstChild);
+    }
+
+    $style_element->appendChild(
+      $dom_document->createTextNode(minify_css($css)),
+    );
+  } else {
+    continue;
   }
 }
 
@@ -134,6 +174,6 @@ foreach ($script_elements as $script) {
   $script->setAttribute("nonce", $javascript_nonce);
 }
 
-echo $dom_document->saveXML();
+echo minify_xhtml($dom_document->saveXML());
 
 exit();
