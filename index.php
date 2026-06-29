@@ -2,7 +2,10 @@
 
 /* By Abdullah As-Sadeed */
 
+$javascript_nonce = base64_encode(random_bytes(16));
+
 header("Content-Type: application/xhtml+xml; charset=UTF-8");
+header("Content-Security-Policy: script-src 'self' 'nonce-$javascript_nonce';");
 
 $data_directory_path = "Data";
 $allowed_extensions = ["avif", "gif", "jpeg", "jpg", "png", "webp"];
@@ -125,4 +128,12 @@ if ($main_element !== null) {
   }
 }
 
+$script_elements = $dom_document->getElementsByTagName("script");
+
+foreach ($script_elements as $script) {
+  $script->setAttribute("nonce", $javascript_nonce);
+}
+
 echo $dom_document->saveXML();
+
+exit();
