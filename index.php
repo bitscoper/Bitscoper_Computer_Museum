@@ -134,8 +134,8 @@ if ($main_element !== null) {
     $h2_element->appendChild($dom_document->createTextNode($computer["title"]));
     $section_element->appendChild($h2_element);
 
-    $gallery_div_element = $dom_document->createElement("div");
-    $gallery_div_element->setAttribute("class", "gallery");
+    $photographs_div_element = $dom_document->createElement("div");
+    $photographs_div_element->setAttribute("class", "photographs");
 
     foreach ($computer["photographs"] as $photograph) {
       $figure_element = $dom_document->createElement("figure");
@@ -159,10 +159,10 @@ if ($main_element !== null) {
       );
 
       $figure_element->appendChild($figcaption_element);
-      $gallery_div_element->appendChild($figure_element);
+      $photographs_div_element->appendChild($figure_element);
     }
 
-    $section_element->appendChild($gallery_div_element);
+    $section_element->appendChild($photographs_div_element);
     $main_element->appendChild($section_element);
   }
 }
