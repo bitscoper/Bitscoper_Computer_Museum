@@ -156,6 +156,8 @@
     <script>
       /* By Abdullah As-Sadeed */
 
+      "use strict";
+
       window.onload = function () {
         const countParagraph = window.document.getElementById("counts");
 
@@ -164,11 +166,12 @@
 
         window.document.searchForm.onsubmit = function (submissionEvent) {
           submissionEvent.preventDefault();
+
           return false;
         };
 
         window.document.searchForm.searchInputField.oninput = function () {
-          searchString = this.value.trim().toLowerCase();
+          const searchString = this.value.trim().toLowerCase();
           let matchCount = 0;
 
           Array.from(

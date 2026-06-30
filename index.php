@@ -2,18 +2,40 @@
 
 /* By Abdullah As-Sadeed */
 
+function get_base_url()
+{
+  $scheme =
+    !empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] !== "off" ? "https" : "http";
+  $base_url = $scheme . "://" . $_SERVER["HTTP_HOST"] . "/";
+
+  return $base_url;
+}
+
+function generate_slug($title)
+{
+  $slug = strtolower($title);
+  $slug = preg_replace("/[^a-z0-9]+/", "-", $slug);
+  $slug = trim($slug, "-");
+
+  return $slug;
+}
+
 function minify_xhtml($xhtml)
 {
-  $xhtml = preg_replace("/\s+/", " ", $xhtml); // Replace Consecutive Whitespace Characters with " "
-  $xhtml = preg_replace("/>\s+</s", "><", $xhtml); # Remove Whitespace Between Tags
-  return trim($xhtml);
+  $minified_xhtml = preg_replace("/\s+/", " ", $xhtml); // Replace Consecutive Whitespace Characters with " "
+  $minified_xhtml = preg_replace("/>\s+</s", "><", $minified_xhtml); # Remove Whitespace Between Tags
+  $minified_xhtml = trim($minified_xhtml);
+
+  return $minified_xhtml;
 }
 
 function minify_css($css)
 {
-  $css = preg_replace("/\s+/", " ", $css); // Replace Consecutive Whitespace Characters with " "
-  $css = preg_replace("/\s*([{:;},])\s*/", '$1', $css); // Remove Whitespace Around Symbols
-  return trim($css);
+  $minified_css = preg_replace("/\s+/", " ", $css); // Replace Consecutive Whitespace Characters with " "
+  $minified_css = preg_replace("/\s*([{:;},])\s*/", '$1', $minified_css); // Remove Whitespace Around Symbols
+  $minified_css = trim($minified_css);
+
+  return $minified_css;
 }
 
 $data_directory_path = "Data";
@@ -85,6 +107,32 @@ foreach ($elements as $element) {
   }
 }
 
+$head_element = $dom_document->getElementsByTagName("head")->item(0);
+if ($head_element !== null) {
+  $base_element = $dom_document->createElement("base");
+  $base_element->setAttribute("href", get_base_url());
+
+  $inserted_base_element = false;
+
+  foreach ($head_element->childNodes as $child_node) {
+    if (
+      $child_node->nodeName === "meta" &&
+      $child_node->hasAttribute("charset")
+    ) {
+      if ($child_node->nextSibling) {
+        $head_element->insertBefore($base_element, $child_node->nextSibling);
+      } else {
+        $head_element->appendChild($base_element);
+      }
+
+      $inserted_base_element = true;
+      break;
+    } else {
+      continue;
+    }
+  }
+}
+
 $style_elements = $dom_document->getElementsByTagName("style");
 foreach ($style_elements as $style_element) {
   $css = $style_element->nodeValue;
@@ -123,12 +171,8 @@ if ($main_element !== null) {
   }
 
   foreach ($titles as $computer) {
-    $section_slug = strtolower($computer["title"]);
-    $section_slug = preg_replace("/[^a-z0-9]+/", "-", $section_slug);
-    $section_slug = trim($section_slug, "-");
-
     $section_element = $dom_document->createElement("section");
-    $section_element->setAttribute("id", $section_slug);
+    $section_element->setAttribute("id", generate_slug($computer["title"]));
 
     $h2_element = $dom_document->createElement("h2");
     $h2_element->appendChild($dom_document->createTextNode($computer["title"]));
