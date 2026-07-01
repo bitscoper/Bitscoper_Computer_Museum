@@ -14,6 +14,22 @@
     <style>
       /* By Abdullah As-Sadeed */
 
+      :root {
+        --base: #1e1e2e;
+        --mantle: #181825;
+        --crust: #11111b;
+
+        --surface0: #313244;
+        --surface1: #45475a;
+        --surface2: #585b70;
+
+        --text: #cdd6f4;
+        --subtext0: #a6adc8;
+
+        --lavender: #b4befe;
+        --lavender-dim: rgba(180, 190, 254, 0.25);
+      }
+
       * {
         box-sizing: border-box;
       }
@@ -24,43 +40,46 @@
 
       body {
         margin: 0px;
-        background-color: #f4f4f4;
+        background-color: var(--base);
         line-height: 1.5;
         font-family: system-ui, sans-serif;
-        color: #222;
+        color: var(--text);
       }
 
       header {
-        background-color: #20242a;
+        border-bottom: 1px solid var(--surface1);
+        background-color: var(--mantle);
         padding: 3rem 1rem;
         text-align: center;
-        color: white;
+        color: var(--text);
       }
 
       h1 {
         margin: 0px;
         font-size: 2.5rem;
+        color: var(--lavender);
       }
 
       header p {
-        color: #bbb;
-      }
-
-      form {
-        margin-top: 1rem;
+        color: var(--subtext0);
       }
 
       input[name="searchInputField"] {
         width: min(500px, 100%);
-        border: none;
-        border-radius: 8px;
+        border: 1px solid var(--surface2);
+        border-radius: 10px;
+        background-color: var(--surface0);
         padding: 0.75rem 1rem;
         font: inherit;
+        color: var(--text);
+        transition: 0.2s;
       }
 
       input[name="searchInputField"]:hover,
       input[name="searchInputField"]:focus {
-        outline: 2px solid #66aaff;
+        box-shadow: 0 0 0 3px var(--lavender-dim);
+        outline: none;
+        border-color: var(--lavender);
       }
 
       main {
@@ -75,8 +94,9 @@
 
       h2 {
         margin-bottom: 1.5rem;
-        border-bottom: 3px solid #ddd;
+        border-bottom: 2px solid var(--surface2);
         padding-bottom: 0.5rem;
+        color: var(--lavender);
       }
 
       .photographs {
@@ -87,15 +107,19 @@
 
       figure {
         margin: 0px;
-        background-color: white;
-        border-radius: 10px;
+        border: 1px solid var(--surface1);
+        border-radius: 12px;
         overflow: hidden;
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+        background-color: var(--surface0);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+        transition:
+          transform 0.2s,
+          border-color 0.2s;
       }
 
       figure:hover {
-        transform: translateY(-2px);
-        transition: 0.2s;
+        border-color: var(--lavender);
+        transform: translateY(-4px);
       }
 
       a {
@@ -114,12 +138,19 @@
       figcaption {
         padding: 0.8rem;
         font-size: 0.95rem;
+        color: var(--subtext0);
       }
 
       footer {
+        border-top: 1px solid var(--surface1);
+        background-color: var(--mantle);
         padding: 2rem;
         text-align: center;
-        color: #666;
+        color: var(--subtext0);
+      }
+
+      footer a {
+        color: var(--lavender);
       }
     </style>
   </head>
