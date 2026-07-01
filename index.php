@@ -184,18 +184,12 @@ if ($main_element !== null) {
     foreach ($computer["photographs"] as $photograph) {
       $figure_element = $dom_document->createElement("figure");
 
-      $hyperlink_element = $dom_document->createElement("a");
-      $hyperlink_element->setAttribute("href", $photograph["path"]);
-      $hyperlink_element->setAttribute("target", "_blank");
-      $hyperlink_element->setAttribute("title", $photograph["caption"]);
-
       $image_element = $dom_document->createElement("img");
       $image_element->setAttribute("src", $photograph["path"]);
       $image_element->setAttribute("loading", "lazy");
       $image_element->setAttribute("alt", $photograph["caption"]);
-      $hyperlink_element->appendChild($image_element);
-
-      $figure_element->appendChild($hyperlink_element);
+      $image_element->setAttribute("title", $photograph["caption"]);
+      $figure_element->appendChild($image_element);
 
       $figcaption_element = $dom_document->createElement("figcaption");
       $figcaption_element->appendChild(

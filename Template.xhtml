@@ -128,7 +128,8 @@
         display: block;
         width: 100%;
         height: 220px;
-        object-fit: cover;
+        object-fit: fill;
+        cursor: pointer;
       }
 
       figcaption {
@@ -245,6 +246,20 @@
               matchCountSuffixString;
           }
         };
+
+        document.querySelectorAll("figure img").forEach((imageElement) => {
+          imageElement.onclick = async function () {
+            try {
+              if (imageElement.requestFullscreen) {
+                await imageElement.requestFullscreen({
+                  navigationUI: "hide",
+                });
+              }
+            } catch (error) {
+              console.error(error);
+            }
+          };
+        });
       };
     </script>
   </body>
