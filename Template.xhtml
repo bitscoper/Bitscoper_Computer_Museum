@@ -36,21 +36,87 @@
 
       * {
         box-sizing: border-box;
-      }
-
-      html {
+        outline: none;
         scroll-behavior: smooth;
       }
 
+      html,
       body {
         margin: 0px;
+        height: 100%;
+      }
+
+      body {
+        display: flex;
+        margin: 0px;
         background-color: var(--base);
+        flex-direction: row;
         line-height: 1.5;
         font-family: system-ui, sans-serif;
         color: var(--text);
       }
 
-      header {
+      aside {
+        display: block;
+        width: 320px;
+        max-width: fit-content;
+        height: 100vh;
+        border-top: 1px solid var(--surface0);
+        border-bottom: 1px solid var(--surface0);
+        border-left: 1px solid var(--surface0);
+        background-color: var(--mantle);
+        overflow-y: scroll;
+        resize: horizontal;
+        transition: width 0.2s;
+      }
+
+      main {
+        flex: 1;
+        height: 100vh;
+        border: 1px solid var(--surface0);
+        overflow-y: scroll;
+      }
+
+      @media (max-width: 768px) {
+        aside {
+          display: none;
+        }
+      }
+
+      aside nav ul {
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+      }
+
+      aside nav ul li {
+        margin: 0px;
+        padding: 0px;
+      }
+
+      aside nav ul li a {
+        display: block;
+        background-color: inherit;
+        padding: 1rem;
+        text-decoration: none;
+        color: var(--text);
+        cursor: pointer;
+        transition:
+          background-color 0.2s,
+          color 0.2s;
+      }
+
+      aside nav ul li:not(:last-child) a {
+        border-bottom: 1px solid var(--surface0);
+      }
+
+      aside nav ul li a:hover,
+      aside nav ul li a:focus {
+        background-color: var(--base);
+        color: var(--lavender);
+      }
+
+      main header {
         border-bottom: 1px solid var(--surface0);
         background-color: var(--mantle);
         padding: 3rem 1rem;
@@ -58,16 +124,16 @@
         color: var(--text);
       }
 
-      h1 {
+      main header h1 {
         margin: 0px;
         color: var(--lavender);
       }
 
-      p {
+      main header p {
         color: var(--text);
       }
 
-      input[name="searchInputField"] {
+      main header form input[type="search"] {
         width: min(500px, 100%);
         border: 1px solid var(--surface0);
         border-radius: 10px;
@@ -78,66 +144,73 @@
         transition: border-color 0.2s;
       }
 
-      input[name="searchInputField"]:hover,
-      input[name="searchInputField"]:focus {
-        outline: none;
+      main header form input[type="search"]:hover,
+      main header form input[type="search"]:focus {
         border-color: var(--surface2);
       }
 
-      main {
+      main article {
         margin: auto;
         max-width: 1500px;
         padding: 2rem;
       }
 
-      section {
+      main article section {
         margin-bottom: 4rem;
       }
 
-      h2 {
+      main article section h2 {
         margin-bottom: 1.5rem;
         border-bottom: 2px solid var(--surface1);
         padding-bottom: 0.5rem;
         color: var(--lavender);
       }
 
-      .photographs {
+      main article section div {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 20px;
       }
 
-      figure {
+      main article section div figure {
         margin: 0px;
         border: 1px solid var(--surface0);
         border-radius: 12px;
-        overflow: hidden;
         background-color: var(--mantle);
         transition:
           border-color 0.2s,
           transform 0.2s;
       }
 
-      figure:hover,
-      figure:focus {
+      main article section div figure:hover,
+      main article section div figure:focus {
         border-color: var(--surface2);
         transform: translateY(-8px);
       }
 
-      img {
+      main article section div figure img {
         display: block;
+      }
+
+      main article section div figure img:fullscreen {
+        object-fit: contain;
+      }
+
+      main article section div figure img:not(:fullscreen) {
         width: 100%;
         height: 220px;
         object-fit: fill;
+        border-top-right-radius: 12px;
+        border-top-left-radius: 12px;
         cursor: pointer;
       }
 
-      figcaption {
+      main article section div figure figcaption {
         padding: 0.8rem;
         color: var(--text);
       }
 
-      footer {
+      main footer {
         border-top: 1px solid var(--surface0);
         background-color: var(--mantle);
         padding: 2rem;
@@ -145,48 +218,90 @@
         color: var(--text);
       }
 
-      a {
+      main footer a {
         text-decoration: none;
         color: var(--text);
         cursor: pointer;
         transition: color 0.2s;
       }
 
-      a:hover,
-      a:focus {
+      main footer a:hover,
+      main footer a:focus {
         color: var(--lavender);
+      }
+
+      main button {
+        display: flex;
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        width: 48px;
+        height: 48px;
+        border: 1px solid var(--surface0);
+        border-radius: 50%;
+        background-color: var(--crust);
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 24px;
+        color: var(--text);
+        cursor: pointer;
+        transition:
+          right 0.2s,
+          bottom 0.2s,
+          border 0.2s;
+      }
+
+      main button:hover,
+      main button:focus {
+        border: 1px solid var(--surface2);
+      }
+
+      @media (max-width: 768px) {
+        main button {
+          right: 10px;
+          bottom: 10px;
+        }
       }
     </style>
   </head>
 
   <body lang="en-US">
-    <header>
-      <h1>Bitscoper Computer Museum</h1>
-      <p id="counts" />
+    <aside>
+      <nav />
+    </aside>
 
-      <form name="searchForm">
-        <input
-          type="search"
-          name="searchInputField"
-          placeholder="Search Computers ..."
-          title="Search Computers ..."
-          aria-label="Search Computers ..."
-          autocomplete="off"
-        />
-      </form>
-    </header>
+    <main>
+      <header>
+        <h1>Bitscoper Computer Museum</h1>
+        <p id="counts" />
 
-    <main id="main" />
+        <form name="searchForm">
+          <input
+            type="search"
+            name="searchInputField"
+            placeholder="Search Computers ..."
+            title="Search Computers ..."
+            aria-label="Search Computers ..."
+            autocomplete="off"
+          />
+        </form>
+      </header>
 
-    <footer>
-      <a
-        href="https://github.com/bitscoper/Bitscoper_Computer_Museum/"
-        target="_blank"
-        title="Source Code"
-      >
-        Source Code
-      </a>
-    </footer>
+      <article />
+
+      <footer>
+        <a
+          href="https://github.com/bitscoper/Bitscoper_Computer_Museum/"
+          target="_blank"
+          title="Source Code"
+        >
+          Source Code
+        </a>
+      </footer>
+
+      <button title="Toggle Visibility of Navigation">☷</button>
+    </main>
 
     <script>
       /* By Abdullah As-Sadeed */
@@ -210,7 +325,7 @@
           let matchCount = 0;
 
           Array.from(
-            window.document.querySelectorAll("main > section"),
+            window.document.querySelectorAll("main article section"),
           ).forEach(function (section) {
             const match = section
               .querySelector("h2")
@@ -247,19 +362,27 @@
           }
         };
 
-        document.querySelectorAll("figure img").forEach((imageElement) => {
-          imageElement.onclick = async function () {
-            try {
-              if (imageElement.requestFullscreen) {
-                await imageElement.requestFullscreen({
-                  navigationUI: "hide",
-                });
+        document
+          .querySelectorAll("main article section div figure img")
+          .forEach((imageElement) => {
+            imageElement.onclick = async function () {
+              try {
+                if (imageElement.requestFullscreen) {
+                  await imageElement.requestFullscreen({
+                    navigationUI: "hide",
+                  });
+                }
+              } catch (error) {
+                console.error(error);
               }
-            } catch (error) {
-              console.error(error);
-            }
-          };
-        });
+            };
+          });
+
+        const asideElement = window.document.getElementsByTagName("aside")[0];
+        window.document.querySelector("main button").onclick = function () {
+          asideElement.style.display =
+            asideElement.style.display == "none" ? "block" : "none";
+        };
       };
     </script>
   </body>

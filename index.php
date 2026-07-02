@@ -163,11 +163,39 @@ if ($counts_p_element !== null) {
   );
 }
 
-$main_element = $dom_document->getElementById("main");
+$nav_element = $dom_document->getElementsByTagName("nav")[0];
+if ($nav_element !== null) {
+  while ($nav_element->firstChild !== null) {
+    $nav_element->removeChild($nav_element->firstChild);
+  }
 
-if ($main_element !== null) {
-  while ($main_element->firstChild !== null) {
-    $main_element->removeChild($main_element->firstChild);
+  $unordered_list_element = $dom_document->createElement("ul");
+
+  foreach ($titles as $computer) {
+    $list_element = $dom_document->createElement("li");
+
+    $hyperlink_element = $dom_document->createElement("a");
+    $hyperlink_element->setAttribute(
+      "href",
+      "#" . generate_slug($computer["title"]),
+    );
+    $hyperlink_element->setAttribute("target", "_self");
+    $hyperlink_element->setAttribute("title", $computer["title"]);
+    $hyperlink_element->appendChild(
+      $dom_document->createTextNode($computer["title"]),
+    );
+    $list_element->appendChild($hyperlink_element);
+
+    $unordered_list_element->appendChild($list_element);
+  }
+
+  $nav_element->appendChild($unordered_list_element);
+}
+
+$article_element = $dom_document->getElementsByTagName("article")[0];
+if ($article_element !== null) {
+  while ($article_element->firstChild !== null) {
+    $article_element->removeChild($article_element->firstChild);
   }
 
   foreach ($titles as $computer) {
@@ -179,7 +207,6 @@ if ($main_element !== null) {
     $section_element->appendChild($h2_element);
 
     $photographs_div_element = $dom_document->createElement("div");
-    $photographs_div_element->setAttribute("class", "photographs");
 
     foreach ($computer["photographs"] as $photograph) {
       $figure_element = $dom_document->createElement("figure");
@@ -201,7 +228,7 @@ if ($main_element !== null) {
     }
 
     $section_element->appendChild($photographs_div_element);
-    $main_element->appendChild($section_element);
+    $article_element->appendChild($section_element);
   }
 }
 
