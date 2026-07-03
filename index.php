@@ -4,8 +4,11 @@
 
 declare(strict_types=1);
 
+ini_set("default_charset", "UTF-8");
+
 error_reporting(E_ALL);
-ini_set("display_errors", 0);
+ini_set("display_errors", "0");
+ini_set("log_errors", "1");
 
 function clear_dom_node(DOMNode $dom_node): void
 {
