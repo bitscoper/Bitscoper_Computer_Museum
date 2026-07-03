@@ -2,17 +2,34 @@
 
 /* By Abdullah As-Sadeed */
 
-function get_base_url()
+declare(strict_types=1);
+
+error_reporting(E_ALL);
+ini_set("display_errors", 0);
+
+function clear_dom_node(DOMNode $dom_node): void
+{
+  while ($dom_node->firstChild) {
+    $dom_node->removeChild($dom_node->firstChild);
+  }
+}
+
+function get_base_url(): string
 {
   $scheme =
     !empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] !== "off" ? "https" : "http";
-  $base_url = $scheme . "://" . $_SERVER["HTTP_HOST"] . "/";
+  $host_name = filter_var(
+    $_SERVER["HTTP_HOST"],
+    FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+  );
+  $base_url = $scheme . "://" . $host_name . "/";
 
   return $base_url;
 }
 
-function generate_slug($title)
+function generate_slug($title): string
 {
+  $slug = iconv("UTF-8", "ASCII//TRANSLIT", $title);
   $slug = strtolower($title);
   $slug = preg_replace("/[^a-z0-9]+/", "-", $slug);
   $slug = trim($slug, "-");
@@ -20,7 +37,7 @@ function generate_slug($title)
   return $slug;
 }
 
-function minify_xhtml($xhtml)
+function minify_xhtml($xhtml): string
 {
   $minified_xhtml = preg_replace("/\s+/", " ", $xhtml); // Replace Consecutive Whitespace Characters with " "
   $minified_xhtml = preg_replace("/>\s+</s", "><", $minified_xhtml); # Remove Whitespace Between Tags
@@ -29,7 +46,7 @@ function minify_xhtml($xhtml)
   return $minified_xhtml;
 }
 
-function minify_css($css)
+function minify_css($css): string
 {
   $minified_css = preg_replace("/\s+/", " ", $css); // Replace Consecutive Whitespace Characters with " "
   $minified_css = preg_replace("/\s*([{:;},])\s*/", '$1', $minified_css); // Remove Whitespace Around Symbols
@@ -41,203 +58,198 @@ function minify_css($css)
 $data_directory_path = "Data";
 $template_xhtml_file_path = "Template.xhtml";
 
-$javascript_nonce = base64_encode(random_bytes(16));
-
-header("Content-Type: application/xhtml+xml; charset=UTF-8");
-header("Content-Security-Policy: script-src 'self' 'nonce-$javascript_nonce';");
-
-$titles = [];
-$total_photographs = 0;
-
-foreach (new DirectoryIterator($data_directory_path) as $directory) {
-  if (!$directory->isDot() && $directory->isDir()) {
-    $title = $directory->getFilename();
-    $photographs = [];
-
-    foreach (new DirectoryIterator($directory->getPathname()) as $file) {
-      if (!$file->isDot() && $file->isFile()) {
-        $extension = strtolower($file->getExtension());
-
-        if (
-          in_array(
-            $extension,
-            ["avif", "gif", "jpeg", "jpg", "png", "webp"],
-            true,
-          )
-        ) {
-          $photographs[] = [
-            "path" => $file->getPathname(),
-            "caption" => pathinfo($file->getFilename(), PATHINFO_FILENAME),
-          ];
-
-          $total_photographs++;
-        } else {
-          continue;
-        }
-      } else {
-        continue;
-      }
-    }
-
-    shuffle($photographs);
-
-    $titles[] = [
-      "title" => $title,
-      "photographs" => $photographs,
-    ];
-  } else {
-    continue;
-  }
-}
-
-usort($titles, fn($a, $b) => strcmp($a["title"], $b["title"]));
-
 libxml_use_internal_errors(true);
 $dom_document = new DOMDocument("1.0", "UTF-8");
 $dom_document->formatOutput = false;
-$dom_document->load($template_xhtml_file_path); // Loads XML File
-libxml_clear_errors();
 
-$elements = $dom_document->getElementsByTagName("*");
-foreach ($elements as $element) {
-  if ($element->hasAttribute("id")) {
-    $element->setIdAttribute("id", true); # Enables getElementById
-  } else {
-    continue;
-  }
-}
+if ($dom_document->load($template_xhtml_file_path)) {
+  libxml_clear_errors();
 
-$head_element = $dom_document->getElementsByTagName("head")->item(0);
-if ($head_element !== null) {
-  $base_element = $dom_document->createElement("base");
-  $base_element->setAttribute("href", get_base_url());
+  $titles = [];
+  $total_photographs = 0;
 
-  $inserted_base_element = false;
+  foreach (new DirectoryIterator($data_directory_path) as $directory) {
+    if (!$directory->isDot() && $directory->isDir()) {
+      $title = $directory->getFilename();
+      $photographs = [];
 
-  foreach ($head_element->childNodes as $child_node) {
-    if (
-      $child_node->nodeName === "meta" &&
-      $child_node->hasAttribute("charset")
-    ) {
-      if ($child_node->nextSibling) {
-        $head_element->insertBefore($base_element, $child_node->nextSibling);
-      } else {
-        $head_element->appendChild($base_element);
+      foreach (new DirectoryIterator($directory->getPathname()) as $file) {
+        if (!$file->isDot() && $file->isFile()) {
+          $extension = strtolower($file->getExtension());
+
+          if (
+            in_array(
+              $extension,
+              ["avif", "gif", "jpeg", "jpg", "png", "webp"],
+              true,
+            )
+          ) {
+            $photographs[] = [
+              "path" => $file->getPathname(),
+              "caption" => pathinfo($file->getFilename(), PATHINFO_FILENAME),
+            ];
+
+            $total_photographs++;
+          } else {
+            continue;
+          }
+        } else {
+          continue;
+        }
       }
 
-      $inserted_base_element = true;
-      break;
+      shuffle($photographs);
+
+      $titles[] = [
+        "title" => $title,
+        "photographs" => $photographs,
+      ];
     } else {
       continue;
     }
   }
-}
 
-$style_elements = $dom_document->getElementsByTagName("style");
-foreach ($style_elements as $style_element) {
-  $css = $style_element->nodeValue;
+  usort($titles, fn($a, $b) => strcmp($a["title"], $b["title"]));
 
-  if ($css !== null && $css !== "") {
-    while ($style_element->firstChild) {
-      $style_element->removeChild($style_element->firstChild);
+  $elements = $dom_document->getElementsByTagName("*");
+  foreach ($elements as $element) {
+    if ($element->hasAttribute("id")) {
+      $element->setIdAttribute("id", true); # Enables getElementById
+    } else {
+      continue;
     }
-
-    $style_element->appendChild(
-      $dom_document->createTextNode(minify_css($css)),
-    );
-  } else {
-    continue;
-  }
-}
-
-$counts_p_element = $dom_document->getElementById("counts");
-if ($counts_p_element !== null) {
-  while ($counts_p_element->firstChild !== null) {
-    $counts_p_element->removeChild($counts_p_element->firstChild);
   }
 
-  $counts_p_element->appendChild(
-    $dom_document->createTextNode(
-      $total_photographs . " Photographs of " . count($titles) . " Computers",
-    ),
-  );
-}
+  $head_element = $dom_document->getElementsByTagName("head")->item(0);
+  if ($head_element !== null) {
+    $base_element = $dom_document->createElement("base");
+    $base_element->setAttribute("href", get_base_url());
 
-$nav_element = $dom_document->getElementsByTagName("nav")[0];
-if ($nav_element !== null) {
-  while ($nav_element->firstChild !== null) {
-    $nav_element->removeChild($nav_element->firstChild);
+    foreach ($head_element->childNodes as $child_node) {
+      if (
+        $child_node->nodeName === "meta" &&
+        $child_node->hasAttribute("charset")
+      ) {
+        if ($child_node->nextSibling) {
+          $head_element->insertBefore($base_element, $child_node->nextSibling);
+        } else {
+          $head_element->appendChild($base_element);
+        }
+        break;
+      } else {
+        continue;
+      }
+    }
   }
 
-  $unordered_list_element = $dom_document->createElement("ul");
+  $style_elements = $dom_document->getElementsByTagName("style");
+  foreach ($style_elements as $style_element) {
+    $css = $style_element->nodeValue;
 
-  foreach ($titles as $computer) {
-    $list_element = $dom_document->createElement("li");
+    if ($css !== null && $css !== "") {
+      clear_dom_node($style_element);
 
-    $hyperlink_element = $dom_document->createElement("a");
-    $hyperlink_element->setAttribute(
-      "href",
-      "#" . generate_slug($computer["title"]),
-    );
-    $hyperlink_element->setAttribute("target", "_self");
-    $hyperlink_element->setAttribute("title", $computer["title"]);
-    $hyperlink_element->appendChild(
-      $dom_document->createTextNode($computer["title"]),
-    );
-    $list_element->appendChild($hyperlink_element);
-
-    $unordered_list_element->appendChild($list_element);
-  }
-
-  $nav_element->appendChild($unordered_list_element);
-}
-
-$article_element = $dom_document->getElementsByTagName("article")[0];
-if ($article_element !== null) {
-  while ($article_element->firstChild !== null) {
-    $article_element->removeChild($article_element->firstChild);
-  }
-
-  foreach ($titles as $computer) {
-    $section_element = $dom_document->createElement("section");
-    $section_element->setAttribute("id", generate_slug($computer["title"]));
-
-    $h2_element = $dom_document->createElement("h2");
-    $h2_element->appendChild($dom_document->createTextNode($computer["title"]));
-    $section_element->appendChild($h2_element);
-
-    $photographs_div_element = $dom_document->createElement("div");
-
-    foreach ($computer["photographs"] as $photograph) {
-      $figure_element = $dom_document->createElement("figure");
-
-      $image_element = $dom_document->createElement("img");
-      $image_element->setAttribute("src", $photograph["path"]);
-      $image_element->setAttribute("loading", "lazy");
-      $image_element->setAttribute("alt", $photograph["caption"]);
-      $image_element->setAttribute("title", $photograph["caption"]);
-      $figure_element->appendChild($image_element);
-
-      $figcaption_element = $dom_document->createElement("figcaption");
-      $figcaption_element->appendChild(
-        $dom_document->createTextNode($photograph["caption"]),
+      $style_element->appendChild(
+        $dom_document->createTextNode(minify_css($css)),
       );
+    } else {
+      continue;
+    }
+  }
 
-      $figure_element->appendChild($figcaption_element);
-      $photographs_div_element->appendChild($figure_element);
+  $counts_p_element = $dom_document->getElementById("counts");
+  if ($counts_p_element !== null) {
+    clear_dom_node($counts_p_element);
+
+    $counts_p_element->appendChild(
+      $dom_document->createTextNode(
+        $total_photographs . " Photographs of " . count($titles) . " Computers",
+      ),
+    );
+  }
+
+  $nav_element = $dom_document->getElementsByTagName("nav")->item(0);
+  if ($nav_element !== null) {
+    clear_dom_node($nav_element);
+
+    $unordered_list_element = $dom_document->createElement("ul");
+
+    foreach ($titles as $computer) {
+      $list_element = $dom_document->createElement("li");
+
+      $hyperlink_element = $dom_document->createElement("a");
+      $hyperlink_element->setAttribute(
+        "href",
+        "#" . generate_slug($computer["title"]),
+      );
+      $hyperlink_element->setAttribute("target", "_self");
+      $hyperlink_element->setAttribute("title", $computer["title"]);
+      $hyperlink_element->appendChild(
+        $dom_document->createTextNode($computer["title"]),
+      );
+      $list_element->appendChild($hyperlink_element);
+
+      $unordered_list_element->appendChild($list_element);
     }
 
-    $section_element->appendChild($photographs_div_element);
-    $article_element->appendChild($section_element);
+    $nav_element->appendChild($unordered_list_element);
   }
+
+  $article_element = $dom_document->getElementsByTagName("article")->item(0);
+  if ($article_element !== null) {
+    clear_dom_node($article_element);
+
+    foreach ($titles as $computer) {
+      $section_element = $dom_document->createElement("section");
+      $section_element->setAttribute("id", generate_slug($computer["title"]));
+
+      $h2_element = $dom_document->createElement("h2");
+      $h2_element->appendChild(
+        $dom_document->createTextNode($computer["title"]),
+      );
+      $section_element->appendChild($h2_element);
+
+      $photographs_div_element = $dom_document->createElement("div");
+
+      foreach ($computer["photographs"] as $photograph) {
+        $figure_element = $dom_document->createElement("figure");
+
+        $image_element = $dom_document->createElement("img");
+        $image_element->setAttribute("src", $photograph["path"]);
+        $image_element->setAttribute("loading", "lazy");
+        $image_element->setAttribute("alt", $photograph["caption"]);
+        $image_element->setAttribute("title", $photograph["caption"]);
+        $figure_element->appendChild($image_element);
+
+        $figcaption_element = $dom_document->createElement("figcaption");
+        $figcaption_element->appendChild(
+          $dom_document->createTextNode($photograph["caption"]),
+        );
+
+        $figure_element->appendChild($figcaption_element);
+        $photographs_div_element->appendChild($figure_element);
+      }
+
+      $section_element->appendChild($photographs_div_element);
+      $article_element->appendChild($section_element);
+    }
+  }
+
+  $javascript_nonce = base64_encode(random_bytes(16));
+
+  $script_elements = $dom_document->getElementsByTagName("script");
+  foreach ($script_elements as $script) {
+    $script->setAttribute("nonce", $javascript_nonce);
+  }
+
+  header("Content-Type: application/xhtml+xml; charset=UTF-8");
+  header(
+    "Content-Security-Policy: script-src 'self' 'nonce-$javascript_nonce';",
+  );
+
+  echo minify_xhtml($dom_document->saveXML());
+} else {
+  http_response_code(500);
 }
-
-$script_elements = $dom_document->getElementsByTagName("script");
-
-foreach ($script_elements as $script) {
-  $script->setAttribute("nonce", $javascript_nonce);
-}
-
-echo minify_xhtml($dom_document->saveXML());
 
 exit();
