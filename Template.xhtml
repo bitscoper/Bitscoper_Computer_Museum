@@ -312,7 +312,7 @@
         const countParagraph = window.document.getElementById("counts");
 
         const initialDocumentTitleString = window.document.title;
-        const initialCountParagraphInnerHTML = countParagraph.innerHTML;
+        const initialCountParagraphText = countParagraph.textContent;
 
         window.document.searchForm.onsubmit = function (submissionEvent) {
           submissionEvent.preventDefault();
@@ -341,7 +341,7 @@
 
           if (searchString === "") {
             window.document.title = initialDocumentTitleString;
-            countParagraph.innerHTML = initialCountParagraphInnerHTML;
+            countParagraph.textContent = initialCountParagraphText;
           } else {
             const matchCountSuffixString =
               matchCount === 1 ? "Matching Computer" : "Matching Computers";
@@ -353,8 +353,8 @@
               " | " +
               initialDocumentTitleString;
 
-            countParagraph.innerHTML =
-              initialCountParagraphInnerHTML +
+            countParagraph.textContent =
+              initialCountParagraphText +
               " | " +
               matchCount +
               " " +

@@ -19,28 +19,49 @@ function clear_dom_node(DOMNode $dom_node): void
 
 function get_base_url(): string
 {
-  $scheme =
-    !empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] !== "off" ? "https" : "http";
+  if (
+    (!empty($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] !== "off") ||
+    (!empty($_SERVER["REQUEST_SCHEME"]) &&
+      $_SERVER["REQUEST_SCHEME"] === "https") ||
+    (!empty($_SERVER["HTTP_X_FORWARDED_PROTO"]) &&
+      $_SERVER["HTTP_X_FORWARDED_PROTO"] === "https")
+  ) {
+    $scheme = "https";
+  } else {
+    $scheme = "http";
+  }
+
   $host_name = filter_var(
-    $_SERVER["HTTP_HOST"],
+    strtolower(trim($_SERVER["HTTP_HOST"] ?? $_SERVER["SERVER_NAME"])),
     FILTER_SANITIZE_FULL_SPECIAL_CHARS,
   );
-  $base_url = $scheme . "://" . $host_name . "/";
+
+  $directory = rtrim(
+    str_replace("\\", "/", dirname($_SERVER["SCRIPT_NAME"] ?? "")),
+    "/.",
+  );
+
+  $base_url = $scheme . "://" . $host_name . $directory . "/";
 
   return $base_url;
 }
 
-function generate_slug($title): string
+function generate_slug(string $title): string
 {
   $slug = iconv("UTF-8", "ASCII//TRANSLIT", $title);
-  $slug = strtolower($title);
+
+  if ($slug === false) {
+    $slug = $title;
+  }
+
+  $slug = strtolower($slug);
   $slug = preg_replace("/[^a-z0-9]+/", "-", $slug);
   $slug = trim($slug, "-");
 
   return $slug;
 }
 
-function minify_xhtml($xhtml): string
+function minify_xhtml(string $xhtml): string
 {
   $minified_xhtml = preg_replace("/\s+/", " ", $xhtml); // Replace Consecutive Whitespace Characters with " "
   $minified_xhtml = preg_replace("/>\s+</s", "><", $minified_xhtml); # Remove Whitespace Between Tags
@@ -49,7 +70,7 @@ function minify_xhtml($xhtml): string
   return $minified_xhtml;
 }
 
-function minify_css($css): string
+function minify_css(string $css): string
 {
   $minified_css = preg_replace("/\s+/", " ", $css); // Replace Consecutive Whitespace Characters with " "
   $minified_css = preg_replace("/\s*([{:;},])\s*/", '$1', $minified_css); // Remove Whitespace Around Symbols
@@ -259,7 +280,25 @@ if (
 
     header("Content-Type: application/xhtml+xml; charset=UTF-8");
     header(
-      "Content-Security-Policy: script-src 'self' 'nonce-$javascript_nonce';",
+      "Content-Security-Policy: " .
+        "default-src 'self'; " .
+        "base-uri 'self'; " .
+        "connect-src 'self'; " .
+        "style-src 'self'  'unsafe-inline';" .
+        "script-src 'self' 'nonce-$javascript_nonce'; " .
+        "manifest-src *; " .
+        "worker-src 'self'; " .
+        "font-src 'none'; " .
+        "img-src 'self'; " .
+        "media-src 'self'; " .
+        "object-src 'none'; " .
+        "form-action 'self'; " .
+        "child-src 'none'; " .
+        "frame-ancestors 'none'; " .
+        "frame-src 'none'; " .
+        // "require-trusted-types-for 'script'; " .
+        "upgrade-insecure-requests; " .
+        "block-all-mixed-content;",
     );
 
     echo minify_xhtml($dom_document->saveXML());
