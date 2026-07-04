@@ -278,13 +278,18 @@ if (
       $script->setAttribute("nonce", $javascript_nonce);
     }
 
+    header("Referrer-Policy: no-referrer");
+    header("Cross-Origin-Opener-Policy: same-origin");
+    header("Cross-Origin-Resource-Policy: same-origin");
+    header("X-Content-Type-Options: nosniff");
     header("Content-Type: application/xhtml+xml; charset=UTF-8");
+    header("Cross-Origin-Embedder-Policy: require-corp");
     header(
       "Content-Security-Policy: " .
         "default-src 'self'; " .
         "base-uri 'self'; " .
         "connect-src 'self'; " .
-        "style-src 'self'  'unsafe-inline';" .
+        "style-src 'self' 'unsafe-inline'; " .
         "script-src 'self' 'nonce-$javascript_nonce'; " .
         "manifest-src *; " .
         "worker-src 'self'; " .
@@ -300,6 +305,37 @@ if (
         "upgrade-insecure-requests; " .
         "block-all-mixed-content;",
     );
+    header(
+      "Permissions-Policy: " .
+        "accelerometer=(), " .
+        "ambient-light-sensor=(), " .
+        "autoplay=(), " .
+        "battery=(), " .
+        "camera=(), " .
+        "cross-origin-isolated=(self), " .
+        "display-capture=(), " .
+        "document-domain=(), " .
+        "encrypted-media=(), " .
+        "execution-while-not-rendered=(), " .
+        "execution-while-out-of-viewport=(), " .
+        "fullscreen=(self), " .
+        "geolocation=(), " .
+        "gyroscope=(), " .
+        "keyboard-map=(), " .
+        "magnetometer=(), " .
+        "microphone=(), " .
+        "midi=(), " .
+        "navigation-override=(), " .
+        "payment=(), " .
+        "picture-in-picture=(self), " .
+        "publickey-credentials-get=(), " .
+        "screen-wake-lock=(), " .
+        "sync-xhr=(self), " .
+        "usb=(), " .
+        "web-share=(self), " .
+        "xr-spatial-tracking=()",
+    );
+    header("X-Frame-Options: DENY");
 
     echo minify_xhtml($dom_document->saveXML());
   } else {
