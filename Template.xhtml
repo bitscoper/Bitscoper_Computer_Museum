@@ -310,7 +310,7 @@
 
       "use strict";
 
-      window.onload = function () {
+      window.onload = async function () {
         const countParagraph = window.document.getElementById("counts");
 
         const initialDocumentTitleString = window.document.title;
@@ -385,6 +385,10 @@
           asideElement.style.display =
             asideElement.style.display == "none" ? "block" : "none";
         };
+
+        if ("serviceWorker" in navigator) {
+          await navigator.serviceWorker.register("/Service_Worker.js");
+        }
       };
     </script>
   </body>
