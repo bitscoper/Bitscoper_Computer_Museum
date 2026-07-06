@@ -19,7 +19,7 @@ self.addEventListener("install", async function (event) {
 
 self.addEventListener("activate", function (event) {
   event.waitUntil(
-    (async () => {
+    (async function () {
       if ("navigationPreload" in self.registration) {
         await self.registration.navigationPreload.enable();
       }
@@ -30,7 +30,7 @@ self.addEventListener("activate", function (event) {
 });
 
 self.addEventListener("fetch", function (event) {
-  if (event.request.mode == "navigate") {
+  if (event.request.mode === "navigate") {
     event.respondWith(
       (async function () {
         try {

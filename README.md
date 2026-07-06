@@ -1,10 +1,10 @@
 <div align="center">
 
-![Bitscoper Computer Museum](Icons/128x128.png)
+![Bitscoper Computer Museum](/Icons/Transparent/128x128.png)
 
 # Bitscoper Computer Museum
 
-A PHP-Driven Single-Page XHTML Gallery of Historical Computers
+A PHP-Driven Single-Page XHTML PWA Gallery of Historical Computers
 
 [computer-museum.bitscoper.dev](https://computer-museum.bitscoper.dev/)
 
