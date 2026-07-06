@@ -21,7 +21,7 @@ self.addEventListener("activate", function (event) {
   event.waitUntil(
     (async function () {
       if ("navigationPreload" in self.registration) {
-        await self.registration.navigationPreload.enable();
+        await self.registration.navigationPreload.disable();
       }
 
       await self.clients.claim();
@@ -34,15 +34,9 @@ self.addEventListener("fetch", function (event) {
     event.respondWith(
       (async function () {
         try {
-          const preloadResponse = await event.preloadResponse;
+          const networkResponse = await fetch(event.request);
 
-          if (preloadResponse) {
-            return preloadResponse;
-          } else {
-            const networkResponse = await fetch(event.request);
-
-            return networkResponse;
-          }
+          return networkResponse;
         } catch (error) {
           const cache = await caches.open(cacheName);
           const cachedResponse = await cache.match(offlineFallbackPage);
