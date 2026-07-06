@@ -175,5 +175,21 @@
       "protocol": "web+bitscopercomputermuseum",
       "url": "/#%s"
     }
+  ],
+  "screenshots": [
+    {
+      "src": "/Screenshots/Wide/1920x1080.png",
+      "type": "image/png",
+      "sizes": "1920x1080",
+      "form_factor": "wide",
+      "label": "Bitscoper Computer Museum"
+    },
+    {
+      "src": "/Screenshots/Narrow/750x1334.png",
+      "type": "image/png",
+      "sizes": "750x1334",
+      "form_factor": "narrow",
+      "label": "Bitscoper Computer Museum"
+    }
   ]
 }

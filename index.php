@@ -308,16 +308,11 @@ if (
     header(
       "Permissions-Policy: " .
         "accelerometer=(), " .
-        "ambient-light-sensor=(), " .
         "autoplay=(), " .
-        "battery=(), " .
         "camera=(), " .
         "cross-origin-isolated=(self), " .
         "display-capture=(), " .
-        "document-domain=(), " .
         "encrypted-media=(), " .
-        "execution-while-not-rendered=(), " .
-        "execution-while-out-of-viewport=(), " .
         "fullscreen=(self), " .
         "geolocation=(), " .
         "gyroscope=(), " .
@@ -325,14 +320,12 @@ if (
         "magnetometer=(), " .
         "microphone=(), " .
         "midi=(), " .
-        "navigation-override=(), " .
         "payment=(), " .
         "picture-in-picture=(self), " .
         "publickey-credentials-get=(), " .
         "screen-wake-lock=(), " .
         "sync-xhr=(self), " .
         "usb=(), " .
-        "web-share=(self), " .
         "xr-spatial-tracking=()",
     );
     header("X-Frame-Options: DENY");

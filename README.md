@@ -8,6 +8,12 @@ A PHP-Driven Single-Page XHTML PWA Gallery of Historical Computers
 
 [computer-museum.bitscoper.dev](https://computer-museum.bitscoper.dev/)
 
+<br />
+
+![Wide Screenshot](/Screenshots/Wide/1920x1080.png)
+
+![Narrow Screenshot](/Screenshots/Narrow/750x1334.png)
+
 </div>
 
 ---
