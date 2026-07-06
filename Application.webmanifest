@@ -144,13 +144,35 @@
   "shortcuts": [
     {
       "name": "Bitscoper Computer Museum",
-      "url": "https://computer-museum.bitscoper.dev/",
-      "description": "A PHP-Driven Single-Page XHTML PWA Gallery of Historical Computers"
+      "url": "/",
+      "description": "A PHP-Driven Single-Page XHTML PWA Gallery of Historical Computers",
+      "icons": [
+        {
+          "src": "/Icons/Transparent/192x192.png",
+          "type": "image/png",
+          "sizes": "192x192"
+        },
+        {
+          "src": "/Icons/Transparent/96x96.png",
+          "type": "image/png",
+          "sizes": "96x96"
+        },
+        {
+          "src": "/Icons/Transparent/72x72.png",
+          "type": "image/png",
+          "sizes": "72x72"
+        },
+        {
+          "src": "/Icons/Transparent/48x48.png",
+          "type": "image/png",
+          "sizes": "48x48"
+        }
+      ]
     }
   ],
   "protocol_handlers": [
     {
-      "protocol": "web+bitscoper_computer_museum",
+      "protocol": "web+bitscopercomputermuseum",
       "url": "/#%s"
     }
   ]

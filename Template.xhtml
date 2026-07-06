@@ -26,8 +26,8 @@
       name="description"
       content="A PHP-Driven Single-Page XHTML PWA Gallery of Historical Computers"
     />
+    <meta name="mobile-web-app-capable" content="yes" />
     <link rel="manifest" href="/Application.webmanifest" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta
       name="apple-mobile-web-app-title"
       content="Bitscoper Computer Museum"
@@ -348,59 +348,66 @@
 
       "use strict";
 
-      window.onload = async function () {
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/Service_Worker.js");
+      }
+
+      window.onload = function () {
         const countParagraph = window.document.getElementById("counts");
 
         const initialDocumentTitleString = window.document.title;
         const initialCountParagraphText = countParagraph.textContent;
 
-        window.document.searchForm.onsubmit = function (submissionEvent) {
+        window.document.forms["searchForm"].onsubmit = function (
+          submissionEvent,
+        ) {
           submissionEvent.preventDefault();
 
           return false;
         };
 
-        window.document.searchForm.searchInputField.oninput = function () {
-          const searchString = this.value.trim().toLowerCase();
-          let matchCount = 0;
+        window.document.forms["searchForm"].searchInputField.oninput =
+          function () {
+            const searchString = this.value.trim().toLowerCase();
+            let matchCount = 0;
 
-          Array.from(
-            window.document.querySelectorAll("main article section"),
-          ).forEach(function (section) {
-            const match = section
-              .querySelector("h2")
-              .textContent.toLowerCase()
-              .includes(searchString);
+            Array.from(
+              window.document.querySelectorAll("main article section"),
+            ).forEach(function (section) {
+              const match = section
+                .querySelector("h2")
+                .textContent.toLowerCase()
+                .includes(searchString);
 
-            section.hidden = !match;
+              section.hidden = !match;
 
-            if (match) {
-              matchCount++;
+              if (match) {
+                matchCount++;
+              }
+            });
+
+            if (searchString === "") {
+              window.document.title = initialDocumentTitleString;
+              countParagraph.textContent = initialCountParagraphText;
+            } else {
+              const matchCountSuffixString =
+                matchCount === 1 ? "Matching Computer" : "Matching Computers";
+
+              window.document.title =
+                matchCount +
+                " " +
+                matchCountSuffixString +
+                " | " +
+                initialDocumentTitleString;
+
+              countParagraph.textContent =
+                initialCountParagraphText +
+                " | " +
+                matchCount +
+                " " +
+                matchCountSuffixString;
             }
-          });
-
-          if (searchString === "") {
-            window.document.title = initialDocumentTitleString;
-            countParagraph.textContent = initialCountParagraphText;
-          } else {
-            const matchCountSuffixString =
-              matchCount === 1 ? "Matching Computer" : "Matching Computers";
-
-            window.document.title =
-              matchCount +
-              " " +
-              matchCountSuffixString +
-              " | " +
-              initialDocumentTitleString;
-
-            countParagraph.textContent =
-              initialCountParagraphText +
-              " | " +
-              matchCount +
-              " " +
-              matchCountSuffixString;
-          }
-        };
+          };
 
         document
           .querySelectorAll("main article section div figure img")
@@ -423,10 +430,6 @@
           asideElement.style.display =
             asideElement.style.display == "none" ? "block" : "none";
         };
-
-        if ("serviceWorker" in navigator) {
-          await navigator.serviceWorker.register("/Service_Worker.js");
-        }
       };
     </script>
   </body>
