@@ -140,7 +140,15 @@
   ],
   "description": "A PHP-Driven Single-Page PWA Gallery of Historical Computers",
   "id": "/",
-  "display_override": ["window-controls-overlay", "standalone"],
+  "display_override": ["window-controls-overlay", "tabbed", "standalone"],
+  "tab_strip": {
+    "home_tab": {
+      "scope_patterns": [{ "pathname": "/" }]
+    },
+    "new_tab_button": {
+      "url": "/"
+    }
+  },
   "shortcuts": [
     {
       "name": "Bitscoper Computer Museum",
@@ -191,5 +199,8 @@
       "form_factor": "narrow",
       "label": "Bitscoper Computer Museum"
     }
-  ]
+  ],
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
 }
