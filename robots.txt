@@ -1,4 +1,6 @@
 # By Abdullah As-Sadeed
 User-agent: *
+Allow: /
 Disallow:
+Content-Signal: search=yes, ai-input=yes, ai-train=no
 Sitemap: https://computer-museum.bitscoper.dev/sitemap.xml
