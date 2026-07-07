@@ -12,6 +12,6 @@ DirectoryIndex index.php
   Require all denied
 </Files>
 
-<Files "Template.xhtml">
+<Files "Template.html">
   Require all denied
 </Files>

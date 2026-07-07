@@ -4,7 +4,7 @@
 
 # Bitscoper Computer Museum
 
-A PHP-Driven Single-Page XHTML PWA Gallery of Historical Computers
+A PHP-Driven Single-Page PWA Gallery of Historical Computers
 
 [computer-museum.bitscoper.dev](https://computer-museum.bitscoper.dev/)
 

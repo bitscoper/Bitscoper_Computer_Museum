@@ -61,13 +61,13 @@ function generate_slug(string $title): string
   return $slug;
 }
 
-function minify_xhtml(string $xhtml): string
+function minify_html(string $html): string
 {
-  $minified_xhtml = preg_replace("/\s+/", " ", $xhtml); // Replace Consecutive Whitespace Characters with " "
-  $minified_xhtml = preg_replace("/>\s+</s", "><", $minified_xhtml); # Remove Whitespace Between Tags
-  $minified_xhtml = trim($minified_xhtml);
+  $minified_html = preg_replace("/\s+/", " ", $html); // Replace Consecutive Whitespace Characters with " "
+  $minified_html = preg_replace("/>\s+</s", "><", $minified_html); # Remove Whitespace Between Tags
+  $minified_html = trim($minified_html);
 
-  return $minified_xhtml;
+  return $minified_html;
 }
 
 function minify_css(string $css): string
@@ -80,19 +80,19 @@ function minify_css(string $css): string
 }
 
 $data_directory_path = "Data";
-$template_xhtml_file_path = "Template.xhtml";
+$template_html_file_path = "Template.html";
 
 if (
   is_readable($data_directory_path) &&
   is_dir($data_directory_path) &&
-  is_readable($template_xhtml_file_path) &&
-  is_file($template_xhtml_file_path)
+  is_readable($template_html_file_path) &&
+  is_file($template_html_file_path)
 ) {
   libxml_use_internal_errors(true);
   $dom_document = new DOMDocument("1.0", "UTF-8");
   $dom_document->formatOutput = false;
 
-  if ($dom_document->load($template_xhtml_file_path)) {
+  if ($dom_document->loadHTMLFile($template_html_file_path)) {
     libxml_clear_errors();
 
     $titles = [];
@@ -140,15 +140,6 @@ if (
     }
 
     usort($titles, fn($a, $b) => strcmp($a["title"], $b["title"]));
-
-    $elements = $dom_document->getElementsByTagName("*");
-    foreach ($elements as $element) {
-      if ($element->hasAttribute("id")) {
-        $element->setIdAttribute("id", true); # Enables getElementById
-      } else {
-        continue;
-      }
-    }
 
     $head_element = $dom_document->getElementsByTagName("head")->item(0);
     if ($head_element !== null) {
@@ -282,7 +273,7 @@ if (
     header("Cross-Origin-Opener-Policy: same-origin");
     header("Cross-Origin-Resource-Policy: same-origin");
     header("X-Content-Type-Options: nosniff");
-    header("Content-Type: application/xhtml+xml; charset=UTF-8");
+    header("Content-Type: text/html; charset=UTF-8");
     header("Cross-Origin-Embedder-Policy: require-corp");
     header(
       "Content-Security-Policy: " .
@@ -330,7 +321,7 @@ if (
     );
     header("X-Frame-Options: DENY");
 
-    echo minify_xhtml($dom_document->saveXML());
+    echo minify_html($dom_document->saveHTML());
   } else {
     http_response_code(500);
   }

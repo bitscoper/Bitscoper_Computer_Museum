@@ -138,14 +138,14 @@
     "magazines",
     "reference"
   ],
-  "description": "A PHP-Driven Single-Page XHTML PWA Gallery of Historical Computers",
+  "description": "A PHP-Driven Single-Page PWA Gallery of Historical Computers",
   "id": "/",
   "display_override": ["window-controls-overlay", "standalone"],
   "shortcuts": [
     {
       "name": "Bitscoper Computer Museum",
       "url": "/",
-      "description": "A PHP-Driven Single-Page XHTML PWA Gallery of Historical Computers",
+      "description": "A PHP-Driven Single-Page PWA Gallery of Historical Computers",
       "icons": [
         {
           "src": "/Icons/Transparent/192x192.png",
