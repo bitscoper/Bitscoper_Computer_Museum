@@ -1,0 +1,13 @@
+{
+  "web_apps": [
+    {
+      "web_app_identity": "https://computer-museum.bitscoper.dev/",
+      "manifest": "https://computer-museum.bitscoper.dev/Application.webmanifest",
+      "details": {
+        "paths": ["/*"],
+        "exclude_paths": []
+      },
+      "authorize": ["intercept-links"]
+    }
+  ]
+}
