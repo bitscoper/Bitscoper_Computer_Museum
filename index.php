@@ -293,8 +293,7 @@ if (
         "frame-ancestors 'none'; " .
         "frame-src 'none'; " .
         // "require-trusted-types-for 'script'; " .
-        "upgrade-insecure-requests; " .
-        "block-all-mixed-content;",
+        "upgrade-insecure-requests;",
     );
     header(
       "Permissions-Policy: " .

@@ -211,5 +211,6 @@
       "origin": "https://computer-museum.bitscoper.dev/"
     }
   ],
-  "handle_links": "preferred"
+  "handle_links": "preferred",
+  "prefer_related_applications": false
 }
