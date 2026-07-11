@@ -147,14 +147,15 @@
   "prefer_related_applications": false,
   "protocol_handlers": [
     {
-      "protocol": "web+bitscopercomputermuseum",
+      "protocol": "web+BitscoperComputerMuseum",
       "url": "/#%s"
     }
   ],
   "scope": "/",
   "scope_extensions": [
     {
-      "origin": "https://computer-museum.bitscoper.dev/"
+      "origin": "https://computer-museum.bitscoper.dev/",
+      "type": "origin"
     }
   ],
   "screenshots": [
