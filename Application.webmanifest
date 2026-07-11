@@ -1,13 +1,20 @@
 {
   "background_color": "#1e1e2e",
+  "categories": [
+    "books",
+    "books &amp; reference",
+    "education",
+    "magazines",
+    "reference"
+  ],
+  "description": "A PHP-Driven Single-Page PWA Gallery of Historical Computers",
   "dir": "ltr",
   "display": "standalone",
-  "name": "Bitscoper Computer Museum",
-  "orientation": "any",
-  "scope": "/",
-  "short_name": "BCM",
-  "start_url": "/",
-  "theme_color": "#1e1e2e",
+  "display_override": ["window-controls-overlay", "tabbed", "standalone"],
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "handle_links": "preferred",
   "icons": [
     {
       "src": "/Icons/Opaque/Maskable/1024x1024.png",
@@ -130,25 +137,43 @@
       "purpose": "any"
     }
   ],
-  "lang": "en",
-  "categories": [
-    "books",
-    "books &amp; reference",
-    "education",
-    "magazines",
-    "reference"
-  ],
-  "description": "A PHP-Driven Single-Page PWA Gallery of Historical Computers",
   "id": "/",
-  "display_override": ["window-controls-overlay", "tabbed", "standalone"],
-  "tab_strip": {
-    "home_tab": {
-      "scope_patterns": [{ "pathname": "/" }]
-    },
-    "new_tab_button": {
-      "url": "/"
-    }
+  "lang": "en",
+  "launch_handler": {
+    "client_mode": "navigate-existing"
   },
+  "name": "Bitscoper Computer Museum",
+  "orientation": "any",
+  "prefer_related_applications": false,
+  "protocol_handlers": [
+    {
+      "protocol": "web+bitscopercomputermuseum",
+      "url": "/#%s"
+    }
+  ],
+  "scope": "/",
+  "scope_extensions": [
+    {
+      "origin": "https://computer-museum.bitscoper.dev/"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/Screenshots/Wide/1920x1080.png",
+      "type": "image/png",
+      "sizes": "1920x1080",
+      "form_factor": "wide",
+      "label": "Bitscoper Computer Museum"
+    },
+    {
+      "src": "/Screenshots/Narrow/750x1334.png",
+      "type": "image/png",
+      "sizes": "750x1334",
+      "form_factor": "narrow",
+      "label": "Bitscoper Computer Museum"
+    }
+  ],
+  "short_name": "BCM",
   "shortcuts": [
     {
       "name": "Bitscoper Computer Museum",
@@ -178,39 +203,18 @@
       ]
     }
   ],
-  "protocol_handlers": [
-    {
-      "protocol": "web+bitscopercomputermuseum",
-      "url": "/#%s"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "/Screenshots/Wide/1920x1080.png",
-      "type": "image/png",
-      "sizes": "1920x1080",
-      "form_factor": "wide",
-      "label": "Bitscoper Computer Museum"
+  "start_url": "/",
+  "tab_strip": {
+    "home_tab": {
+      "scope_patterns": [
+        {
+          "pathname": "/"
+        }
+      ]
     },
-    {
-      "src": "/Screenshots/Narrow/750x1334.png",
-      "type": "image/png",
-      "sizes": "750x1334",
-      "form_factor": "narrow",
-      "label": "Bitscoper Computer Museum"
+    "new_tab_button": {
+      "url": "/"
     }
-  ],
-  "edge_side_panel": {
-    "preferred_width": 400
   },
-  "launch_handler": {
-    "client_mode": "navigate-existing"
-  },
-  "scope_extensions": [
-    {
-      "origin": "https://computer-museum.bitscoper.dev/"
-    }
-  ],
-  "handle_links": "preferred",
-  "prefer_related_applications": false
+  "theme_color": "#1e1e2e"
 }
