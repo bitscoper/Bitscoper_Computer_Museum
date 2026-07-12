@@ -86,13 +86,13 @@
 
       html,
       body {
-        margin: 0px;
+        margin: 0rem;
         height: 100%;
+        padding: 0rem;
       }
 
       body {
         display: flex;
-        margin: 0px;
         background-color: var(--base);
         flex-direction: row;
         line-height: 1.5;
@@ -102,7 +102,7 @@
 
       aside {
         display: block;
-        width: 320px;
+        width: 16rem;
         max-width: fit-content;
         height: 100vh;
         border-top: 1px solid var(--surface0);
@@ -128,14 +128,14 @@
       }
 
       aside nav ul {
-        margin: 0px;
-        padding: 0px;
+        margin: 0rem;
+        padding: 0rem;
         list-style: none;
       }
 
       aside nav ul li {
-        margin: 0px;
-        padding: 0px;
+        margin: 0rem;
+        padding: 0rem;
       }
 
       aside nav ul li a {
@@ -163,26 +163,27 @@
       main header {
         border-bottom: 1px solid var(--surface0);
         background-color: var(--mantle);
-        padding: 3rem 1rem;
+        padding: 4rem 1rem 4rem 1rem;
         text-align: center;
         color: var(--text);
       }
 
       main header h1 {
-        margin: 0px;
+        margin: 0rem;
         color: var(--lavender);
       }
 
       main header p {
+        margin: 1rem;
         color: var(--text);
       }
 
       main header form input[type="search"] {
-        width: min(500px, 100%);
+        width: min(24rem, 100%);
         border: 1px solid var(--surface0);
-        border-radius: 10px;
+        border-radius: 1rem;
         background-color: var(--base);
-        padding: 0.75rem 1rem;
+        padding: 0.8rem 1rem 0.8rem 1rem;
         font: inherit;
         color: var(--text);
         transition: border-color 0.2s;
@@ -195,31 +196,37 @@
 
       main article {
         margin: auto;
-        max-width: 1500px;
-        padding: 2rem;
+        max-width: 100rem;
       }
 
       main article section {
-        margin-bottom: 4rem;
+        margin: 4rem 2rem 4rem 2rem;
+      }
+
+      @media (max-width: 768px) {
+        main article section {
+          margin: 4rem 1rem 4rem 1rem;
+        }
       }
 
       main article section h2 {
-        margin-bottom: 1.5rem;
+        margin-top: 0rem;
+        margin-bottom: 1rem;
         border-bottom: 2px solid var(--surface1);
-        padding-bottom: 0.5rem;
+        padding-bottom: 0.2rem;
         color: var(--lavender);
       }
 
       main article section div {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 20px;
+        grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+        gap: 1rem;
       }
 
       main article section div figure {
-        margin: 0px;
+        margin: 0rem;
         border: 1px solid var(--surface0);
-        border-radius: 12px;
+        border-radius: 1rem;
         background-color: var(--mantle);
         transition:
           border-color 0.2s,
@@ -229,7 +236,7 @@
       main article section div figure:hover,
       main article section div figure:focus {
         border-color: var(--surface2);
-        transform: translateY(-8px);
+        transform: translateY(-0.5rem);
       }
 
       main article section div figure img {
@@ -242,22 +249,22 @@
 
       main article section div figure img:not(:fullscreen) {
         width: 100%;
-        height: 220px;
+        height: 16rem;
         object-fit: fill;
-        border-top-right-radius: 12px;
-        border-top-left-radius: 12px;
+        border-top-right-radius: 1rem;
+        border-top-left-radius: 1rem;
         cursor: pointer;
       }
 
       main article section div figure figcaption {
-        padding: 0.8rem;
+        padding: 1rem;
         color: var(--text);
       }
 
       main footer {
         border-top: 1px solid var(--surface0);
         background-color: var(--mantle);
-        padding: 2rem;
+        padding: 4rem 1rem 4rem 1rem;
         text-align: center;
         color: var(--text);
       }
@@ -277,17 +284,17 @@
       main button {
         display: flex;
         position: fixed;
-        right: 20px;
-        bottom: 20px;
-        width: 48px;
-        height: 48px;
+        right: 1rem;
+        bottom: 1rem;
+        width: 3rem;
+        height: 3rem;
         border: 1px solid var(--surface0);
         border-radius: 50%;
         background-color: var(--crust);
         align-items: center;
         justify-content: center;
         text-align: center;
-        font-size: 24px;
+        font-size: 1.6rem;
         color: var(--text);
         cursor: pointer;
         transition:
@@ -303,8 +310,8 @@
 
       @media (max-width: 768px) {
         main button {
-          right: 10px;
-          bottom: 10px;
+          right: 0.4rem;
+          bottom: 0.4rem;
         }
       }
     </style>
