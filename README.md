@@ -6,7 +6,7 @@
 
 A PHP-Driven Single-Page PWA Gallery of Historical Computers
 
-[computer-museum.bitscoper.dev](https://computer-museum.bitscoper.dev/)
+[bitscoper-computer-museum.site](https://bitscoper-computer-museum.site/)
 
 [![No AI](https://raw.githubusercontent.com/nuxy/no-ai-badge/master/badge.svg)](https://github.com/bitscoper/Bitscoper_Computer_Museum#notes)
 
