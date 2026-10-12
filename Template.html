@@ -4,57 +4,21 @@
   <head>
     <meta charset="UTF-8" />
     <title>Bitscoper Computer Museum</title>
-    <link
-      rel="icon"
-      href="/Icons/Transparent/Scalable.svg"
-      type="image/svg+xml"
-      sizes="any"
-    />
+    <link rel="icon" href="/Icons/Transparent/Scalable.svg" type="image/svg+xml" sizes="any" />
     <meta name="theme-color" content="#1e1e2e" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=yes"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <meta name="color-scheme" content="dark" />
     <meta name="mobile-web-app-capable" content="yes" />
     <link rel="manifest" href="/Application.webmanifest" />
-    <meta
-      name="apple-mobile-web-app-title"
-      content="Bitscoper Computer Museum"
-    />
-    <link
-      rel="apple-touch-icon"
-      href="/Icons/Opaque/Maskable/Apple/180x180.png"
-      type="image/png"
-      sizes="180x180"
-    />
-    <link
-      rel="apple-touch-icon"
-      href="/Icons/Opaque/Maskable/Apple/167x167.png"
-      type="image/png"
-      sizes="167x167"
-    />
-    <link
-      rel="apple-touch-icon"
-      href="/Icons/Opaque/Maskable/Apple/152x152.png"
-      type="image/png"
-      sizes="152x152"
-    />
+    <meta name="apple-mobile-web-app-title" content="Bitscoper Computer Museum" />
+    <link rel="apple-touch-icon" href="/Icons/Opaque/Maskable/Apple/180x180.png" type="image/png" sizes="180x180" />
+    <link rel="apple-touch-icon" href="/Icons/Opaque/Maskable/Apple/167x167.png" type="image/png" sizes="167x167" />
+    <link rel="apple-touch-icon" href="/Icons/Opaque/Maskable/Apple/152x152.png" type="image/png" sizes="152x152" />
     <meta name="robots" content="index, follow" />
     <meta name="author" content="Abdullah As-Sadeed" />
-    <meta
-      name="description"
-      content="A PHP-Driven Single-Page PWA Gallery of Historical Computers"
-    />
-    <link
-      rel="me"
-      href="https://github.com/bitscoper/Bitscoper_Computer_Museum/"
-    />
-    <meta
-      name="google-site-verification"
-      content="B6uf50Z1zSJr9cboVNXffFHUF_7bIgZNGzjQh3W1vGc"
-    />
-
+    <meta name="description" content="A PHP-Driven Single-Page PWA Gallery of Historical Computers" />
+    <link rel="me" href="https://github.com/bitscoper/Bitscoper_Computer_Museum/" />
+    <meta name="google-site-verification" content="B6uf50Z1zSJr9cboVNXffFHUF_7bIgZNGzjQh3W1vGc" />
     <style>
       /* By Abdullah As-Sadeed */
 
@@ -62,19 +26,15 @@
         --crust: #11111b;
         --mantle: #181825;
         --base: #1e1e2e;
-
         --surface0: #313244;
         --surface1: #45475a;
         --surface2: #585b70;
-
         --overlay0: #6c7086;
         --overlay1: #7f849c;
         --overlay2: #9399b2;
-
         --subtext0: #a6adc8;
         --subtext1: #bac2de;
         --text: #cdd6f4;
-
         --lavender: #b4befe;
       }
 
@@ -243,17 +203,17 @@
         display: block;
       }
 
-      main article section div figure img:fullscreen {
-        object-fit: contain;
-      }
-
       main article section div figure img:not(:fullscreen) {
         width: 100%;
         height: 16rem;
         object-fit: fill;
         border-top-right-radius: 1rem;
         border-top-left-radius: 1rem;
-        cursor: pointer;
+        cursor: zoom-in;
+      }
+
+      main article section div figure img:fullscreen {
+        object-fit: contain;
       }
 
       main article section div figure figcaption {
@@ -316,102 +276,27 @@
       }
     </style>
   </head>
-
   <body lang="en-US">
     <aside>
       <nav />
     </aside>
-
     <main>
       <header>
         <h1>Bitscoper Computer Museum</h1>
         <p id="counts" />
-
         <form name="searchForm">
-          <input
-            type="search"
-            name="searchInputField"
-            placeholder="Search Computers ..."
-            title="Search Computers ..."
-            aria-label="Search Computers ..."
-            autocomplete="off"
-          />
+          <input type="search" name="searchInputField" placeholder="Search Computers ..." title="Search Computers ..." aria-label="Search Computers ..." autocomplete="off" />
         </form>
       </header>
-
       <article />
-
       <footer>
-        <a
-          href="https://www.ssllabs.com/ssltest/analyze.html?d=bitscoper-computer-museum.site"
-          title="Check TLS Certificate"
-          target="_blank"
-          >Check TLS Certificate</a
-        >
-        |
-        <a
-          href="https://securityheaders.com/?q=https%3A%2F%2Fbitscoper-computer-museum.site%2F&followRedirects=on"
-          title="Check Security Headers"
-          target="_blank"
-          >Check Security Headers</a
-        >
-        |
-        <a
-          href="https://hstspreload.org/?domain=bitscoper-computer-museum.site#submission-form"
-          title="Check HSTS Preload Status"
-          target="_blank"
-          >Check HSTS Preload Status</a
-        >
-        |
-        <a
-          href="https://validator.w3.org/nu/?doc=https%3A%2F%2Fbitscoper-computer-museum.site%2F&checkerrorpages=yes&showsource=yes&showoutline=yes"
-          title="Validate Markup"
-          target="_blank"
-          >Validate Markup</a
-        >
-        |
-        <a
-          href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fbitscoper-computer-museum.site%2F"
-          title="Check by PageSpeed Insights"
-          target="_blank"
-        >
-          Check by PageSpeed Insights
-        </a>
-        |
-        <a
-          href="https://www.pwabuilder.com/reportcard?site=https://bitscoper-computer-museum.site/"
-          title="Check by PWABuilder"
-          target="_blank"
-          >Check by PWABuilder</a
-        >
-        |
-        <a
-          href="https://www.uriports.com/tools/securitytxt-validator?domain=bitscoper-computer-museum.site"
-          title="Validate security.txt"
-          target="_blank"
-          >Validate security.txt</a
-        >
-        |
-        <a
-          href="https://isitagentready.com/bitscoper-computer-museum.site"
-          title="Check Agent Readiness"
-          target="_blank"
-          >Check Agent Readiness</a
-        >
+        <a href="https://www.ssllabs.com/ssltest/analyze.html?d=bitscoper-computer-museum.site" title="Check TLS Certificate" target="_blank">Check TLS Certificate</a> | <a href="https://securityheaders.com/?q=https%3A%2F%2Fbitscoper-computer-museum.site%2F&followRedirects=on" title="Check Security Headers" target="_blank">Check Security Headers</a> | <a href="https://hstspreload.org/?domain=bitscoper-computer-museum.site#submission-form" title="Check HSTS Preload Status" target="_blank">Check HSTS Preload Status</a> | <a href="https://validator.w3.org/nu/?doc=https%3A%2F%2Fbitscoper-computer-museum.site%2F&checkerrorpages=yes&showsource=yes&showoutline=yes" title="Validate Markup" target="_blank">Validate Markup</a> | <a href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fbitscoper-computer-museum.site%2F" title="Check by PageSpeed Insights" target="_blank"> Check by PageSpeed Insights </a> | <a href="https://www.pwabuilder.com/reportcard?site=https://bitscoper-computer-museum.site/" title="Check by PWABuilder" target="_blank">Check by PWABuilder</a> | <a href="https://www.uriports.com/tools/securitytxt-validator?domain=bitscoper-computer-museum.site" title="Validate security.txt" target="_blank">Validate security.txt</a> | <a href="https://isitagentready.com/bitscoper-computer-museum.site" title="Check Agent Readiness" target="_blank">Check Agent Readiness</a>
         <br />
         <br />
-        <a
-          href="https://github.com/bitscoper/Bitscoper_Computer_Museum/"
-          title="Source Code"
-          target="_blank"
-        >
-          Source Code
-        </a>
+        <a href="https://github.com/bitscoper/Bitscoper_Computer_Museum/" title="Source Code" target="_blank"> Source Code </a>
       </footer>
-
       <button title="Toggle Visibility of Navigation">☷</button>
     </main>
-
     <script>
       /* By Abdullah As-Sadeed */
 
@@ -421,83 +306,53 @@
         navigator.serviceWorker.register("/Service_Worker.js");
       }
 
-      window.onload = function () {
+      window.onload = function() {
         const countParagraph = window.document.getElementById("counts");
-
         const initialDocumentTitleString = window.document.title;
         const initialCountParagraphText = countParagraph.textContent;
 
-        window.document.forms["searchForm"].onsubmit = function (
-          submissionEvent,
-        ) {
+        window.document.forms["searchForm"].onsubmit = function(submissionEvent, ) {
           submissionEvent.preventDefault();
-
           return false;
         };
 
-        window.document.forms["searchForm"].searchInputField.oninput =
-          function () {
-            const searchString = this.value.trim().toLowerCase();
-            let matchCount = 0;
+        window.document.forms["searchForm"].searchInputField.oninput = function() {
+          const searchString = this.value.trim().toLowerCase();
+          let matchCount = 0;
+          Array.from(window.document.querySelectorAll("main article section"), ).forEach(function(section) {
+            const match = section.querySelector("h2").textContent.toLowerCase().includes(searchString);
+            section.hidden = !match;
+            if (match) {
+              matchCount++;
+            }
+          });
+          if (searchString === "") {
+            window.document.title = initialDocumentTitleString;
+            countParagraph.textContent = initialCountParagraphText;
+          } else {
+            const matchCountSuffixString = matchCount === 1 ? "Matching Computer" : "Matching Computers";
+            window.document.title = matchCount + " " + matchCountSuffixString + " | " + initialDocumentTitleString;
+            countParagraph.textContent = initialCountParagraphText + " | " + matchCount + " " + matchCountSuffixString;
+          }
+        };
 
-            Array.from(
-              window.document.querySelectorAll("main article section"),
-            ).forEach(function (section) {
-              const match = section
-                .querySelector("h2")
-                .textContent.toLowerCase()
-                .includes(searchString);
-
-              section.hidden = !match;
-
-              if (match) {
-                matchCount++;
+        document.querySelectorAll("main article section div figure img").forEach((imageElement) => {
+          imageElement.onclick = async function() {
+            try {
+              if (imageElement.requestFullscreen) {
+                await imageElement.requestFullscreen({
+                  navigationUI: "hide",
+                });
               }
-            });
-
-            if (searchString === "") {
-              window.document.title = initialDocumentTitleString;
-              countParagraph.textContent = initialCountParagraphText;
-            } else {
-              const matchCountSuffixString =
-                matchCount === 1 ? "Matching Computer" : "Matching Computers";
-
-              window.document.title =
-                matchCount +
-                " " +
-                matchCountSuffixString +
-                " | " +
-                initialDocumentTitleString;
-
-              countParagraph.textContent =
-                initialCountParagraphText +
-                " | " +
-                matchCount +
-                " " +
-                matchCountSuffixString;
+            } catch (error) {
+              console.error(error);
             }
           };
-
-        document
-          .querySelectorAll("main article section div figure img")
-          .forEach((imageElement) => {
-            imageElement.onclick = async function () {
-              try {
-                if (imageElement.requestFullscreen) {
-                  await imageElement.requestFullscreen({
-                    navigationUI: "hide",
-                  });
-                }
-              } catch (error) {
-                console.error(error);
-              }
-            };
-          });
+        });
 
         const asideElement = window.document.getElementsByTagName("aside")[0];
-        window.document.querySelector("main button").onclick = function () {
-          asideElement.style.display =
-            asideElement.style.display == "none" ? "block" : "none";
+        window.document.querySelector("main button").onclick = function() {
+          asideElement.style.display = asideElement.style.display == "none" ? "block" : "none";
         };
       };
     </script>

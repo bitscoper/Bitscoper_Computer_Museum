@@ -10,7 +10,11 @@
   "description": "A PHP-Driven Single-Page PWA Gallery of Historical Computers",
   "dir": "ltr",
   "display": "standalone",
-  "display_override": ["window-controls-overlay", "tabbed", "standalone"],
+  "display_override": [
+    "window-controls-overlay",
+    "tabbed",
+    "standalone"
+  ],
   "edge_side_panel": {
     "preferred_width": 400
   },
