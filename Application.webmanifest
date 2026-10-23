@@ -21,6 +21,12 @@
   "handle_links": "preferred",
   "icons": [
     {
+      "src": "/Icons/Transparent/6463x6463.png",
+      "type": "image/png",
+      "sizes": "6463x6463",
+      "purpose": "any"
+    },
+    {
       "src": "/Icons/Opaque/Maskable/1024x1024.png",
       "type": "image/png",
       "sizes": "1024x1024",
@@ -135,9 +141,9 @@
       "purpose": "any"
     },
     {
-      "src": "/Icons/Transparent/Scalable.svg",
-      "type": "image/svg+xml",
-      "sizes": "any",
+      "src": "/Icons/Transparent/3555x3555.png",
+      "type": "image/png",
+      "sizes": "3555x3555",
       "purpose": "any"
     }
   ],
