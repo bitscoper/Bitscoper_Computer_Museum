@@ -24,7 +24,7 @@
       "src": "/Icons/square_cdd6f4Background_45percentPadding_colored_6463x6463.png",
       "type": "image/png",
       "sizes": "6463x6463",
-      "purpose": "any"
+      "purpose": "maskable"
     },
     {
       "src": "/Icons/square_cdd6f4Background_45percentPadding_colored_1024x1024.png",
@@ -93,6 +93,12 @@
       "purpose": "maskable"
     },
     {
+      "src": "/Icons/square_transparent_unpadded_colored_3555x3555.png",
+      "type": "image/png",
+      "sizes": "3555x3555",
+      "purpose": "any"
+    },
+    {
       "src": "/Icons/square_transparent_unpadded_colored_1024x1024.png",
       "type": "image/png",
       "sizes": "1024x1024",
@@ -138,12 +144,6 @@
       "src": "/Icons/square_transparent_unpadded_colored_48x48.png",
       "type": "image/png",
       "sizes": "48x48",
-      "purpose": "any"
-    },
-    {
-      "src": "/Icons/square_transparent_unpadded_colored_3555x3555.png",
-      "type": "image/png",
-      "sizes": "3555x3555",
       "purpose": "any"
     }
   ],
