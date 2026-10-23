@@ -1,6 +1,6 @@
 <div align="center">
 
-![Bitscoper Computer Museum](/Icons/Transparent/128x128.png)
+![Bitscoper Computer Museum](/Icons/square_transparent_unpadded_colored_128x128.png)
 
 # Bitscoper Computer Museum
 
@@ -28,5 +28,4 @@ A PHP-Driven Single-Page PWA Gallery of Historical Computers
 
 ## Credits
 
-- **Icon:** <https://www.veryicon.com/icons/internet--web/digital-equipment-topics/cpu-processor.html>
 - **Photographs:** Courtesy of their respective owners.
