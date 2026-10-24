@@ -302,10 +302,6 @@
 
       "use strict";
 
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("/Service_Worker.js");
-      }
-
       window.onload = function() {
         const countParagraph = window.document.getElementById("counts");
         const initialDocumentTitleString = window.document.title;
@@ -336,7 +332,7 @@
           }
         };
 
-        document.querySelectorAll("main article section div figure img").forEach((imageElement) => {
+        window.document.querySelectorAll("main article section div figure img").forEach((imageElement) => {
           imageElement.onclick = async function() {
             try {
               if (imageElement.requestFullscreen) {
@@ -355,6 +351,10 @@
           asideElement.style.display = asideElement.style.display == "none" ? "block" : "none";
         };
       };
+
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/Service_Worker.js");
+      }
     </script>
   </body>
 </html>
